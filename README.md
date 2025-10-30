@@ -1,7 +1,7 @@
 <p align='center'>
-  <img src='https://2dce2617-e4e3-4f5e-8e1e-7f1bb960a632-00-2b2h5jnuzldst.spock.replit.dev/drs.png' alt='Daily Reading Streak Logo' height=20% width=20%><br>
+  <img src='https://hariz-harisun.github.io/Daily-Reading-Streak/drs.png' alt='Daily Reading Streak Logo' height=20% width=20%><br>
   <i>Track your reading streaks and build a habit of daily reading and writing reflections. - M. Hariz Hazril</i><br>
-  <a href="https://2dce2617-e4e3-4f5e-8e1e-7f1bb960a632-00-2b2h5jnuzldst.spock.replit.dev/" target="_blank">Daily Reading Streak (Click Me To Try Out)</a>
+  <a href="https://hariz-harisun.github.io/Daily-Reading-Streak/" target="_blank">Daily Reading Streak (Click Me To Try Out)</a>
 </p>
 
 <p align="center">
@@ -14,29 +14,46 @@
 </p>
 <hr>
 
-## What is `Daily Reading Streak (DRS)`?
-`Daily Reading Streak (DRS)` is a mock application designed to help users build a consistent habit of reading books and writing reflections. Inspired by Duolingo’s day streak system, this project encourages users to log their daily reading along with reflections, enabling them to track their progress and develop lasting reading habits.
-
-## How `(DRS)` works?
-- **Step 1:** Read anything that is useful for your knowledge or insight, whether it's from a book or a piece of paper.
-- **Step 2:** Write down the title of what you've read and what you've learned from it.
-- **Step 3:** Submit your entry.
-- **Step 4:** Your streak for the first day is counted!
-- **Step 5:** Repeat the process the next day (daily claim starts at 12 AM).
 
 
-## Inspired from,
-I just started using Duolingo recently because I want to learn the Russian language. I am amazed by the day streak system created by Duolingo. Most Duolingo users have a lot of day streaks! So much so that some of my friends have hundreds of day streaks! How does this Duolingo system succeed in developing a habit-building? This inspired me to develop a mock application, where this application is used to build a habit of reading books, as well as a habit of writing!
+## 📘 What is **Daily Reading Streak (DRS)?**
+**Daily Reading Streak (DRS)** is a lightweight web app designed to help users build consistent reading and writing habits.  
+Inspired by **Duolingo’s day streak system**, it motivates you to log what you’ve read each day and reflect on your insights — turning small daily actions into a meaningful long-term habit.
 
-## Key Features:
-- **Daily Reading Log:** Enter the book title and a reflection (minimum 50 characters) each day to maintain your streak.
-- **Reading History:** View the last 10 days of reading logs, including the date, title, and reflection.
-- **Streak System:** Tracks and displays your streak, resetting if a day is missed.
-- **User Experience:** Clean book-themed interface and responsive design.
 
-## You can Test it Now! (Early version/Versi olok-olok)
-Explore the live system: [Daily Reading Streak Website](https://2dce2617-e4e3-4f5e-8e1e-7f1bb960a632-00-2b2h5jnuzldst.spock.replit.dev/)
 
-## Installation & Usage
+## ⚙️ How It Works
+1. **Read something** — a book, article, or even a research paper.  
+2. **Log it** — enter the title and write a short reflection (minimum 50 characters).  
+3. **Submit your entry** — your first streak day begins!  
+4. **Come back tomorrow** — log again after 12 AM to keep your streak alive.  
+
+
+
+## 💡 Inspiration
+While learning Russian on **Duolingo**, I was fascinated by how its streak system motivates users to return daily.  
+That inspired me to design a **mock habit-building app** — one that nurtures daily reading and reflection instead of language learning.  
+This project merges my passion for **habit formation, UI design, and personal development**.
+
+
+
+## ✨ Key Features
+- 🕒 **Daily Reading Log:** Record book titles and reflections to maintain your streak.  
+- 📚 **Reading History:** Review up to 10 recent entries with date, title, and reflection.  
+- 🔥 **Streak Tracker:** Automatically tracks and resets your daily streak.  
+- 🎨 **Simple UI:** Clean, book-themed interface with responsive layout.  
+- 🔒 **Privacy-Friendly:** All data stored locally using browser cookies.  
+
+
+
+## 🚀 Try It Out (Early Access)
+👉 [**Daily Reading Streak – Live Demo**](https://hariz-harisun.github.io/Daily-Reading-Streak/)
+*(Version: Early Mock Build)*
+
+---
+
+## 🧩 Installation & Usage
 ```bash
-$ git clone https://github.com/yourusername/daily-reading-streak.git && cd daily-reading-streak
+# Clone the repository
+git clone https://github.com/Hariz-Harisun/daily-reading-streak.git
+cd daily-reading-streak
