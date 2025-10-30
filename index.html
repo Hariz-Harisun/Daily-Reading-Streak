@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Reading Streak (DRS)</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap');
+  </style>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+      line-height: 1.5;
+    }
+
+    .reenie-beanie-regular {
+      font-family: "Reenie Beanie", serif;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 350%;
+      font-weight: bolder;
+      line-height: 55px;
+    }
+
+    .container {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1c295e;
+      margin: 10px 0;
+      font-size: 2.5rem;
+      font-weight: bolder;
+    }
+
+    p {
+      text-align: center;
+      color: #475569;
+    }
+
+    .streak-display,
+    .reading-section,
+    .history-section {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #f0f9ff;
+      border-radius: 8px;
+      padding-right: 45px;
+    }
+
+    .streak-display {
+      margin: 20px 0;
+      padding: 20px;
+      background-color: #f0f9ff;
+      border-radius: 8px;
+    }
+
+    .streak-info {
+      color: #64748b;
+      font-size: 0.9em;
+      margin-top: 10px;
+    }
+
+    .streak-display div,
+    .button,
+    label {
+      text-align: center;
+    }
+
+    .streak-number {
+      font-size: 48px;
+      font-weight: bold;
+      color: #0284c7;
+      margin: 10px 0;
+    }
+
+    .button {
+      background-color: #0284c7;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      display: block;
+      margin: 10px auto;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .button:disabled {
+      background-color: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    textarea,
+    input {
+      width: 97%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 1rem;
+      resize: vertical;
+    }
+
+    .history-entry {
+      padding: 15px;
+      margin: 10px 0;
+      background-color: white;
+      border-radius: 6px;
+      border-left: 4px solid #0284c7;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .button {
+        font-size: 0.9rem;
+        padding: 8px;
+      }
+
+      .streak-number {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #0284c7;
+        margin: 10px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <img src="drs.png" alt="Daily Reading Streak Logo" width="150" style="display: block; margin: 0 auto;">
+    <h1 class="reenie-beanie-regular">Daily Reading Streak</h1>
+
+    <div class="streak-display">
+      <div>Current Reading Streak</div>
+      <div class="streak-number" id="streakCount">0</div>
+      <div>days</div>
+      <div class="streak-info" id="streakStartDate"></div>
+    </div>
+
+    <div class="reading-section">
+      <h3>Today's Reading Reflection</h3>
+      <label for="bookTitle">Book Title:</label>
+      <input type="text" id="bookTitle" placeholder="Enter the book's title">
+
+      <label for="readingReflection">What did you read today? Share your thoughts:</label>
+      <textarea id="readingReflection" rows="5"
+        placeholder="Write about what you read today (minimum 50 characters)"></textarea>
+      <button id="submitReflection" class="button">Save Today's Reading</button>
+    </div>
+
+    <div id="message" style="display: none; text-align: center;"></div>
+
+    <div class="history-section">
+      <h3>Previous Readings</h3>
+      <div id="readingHistory"></div>
+    </div>
+
+    <p>Made with ❤️ by <a href="https://hariz-harisun.github.io/about.html" target="_blank" style="color: #2d546e;text-decoration:none;">M. Hariz Hazril</a> (2025)</p>
+
+
+  </div>
+
+  <script>
+    const submitReflection = document.getElementById('submitReflection');
+    const readingReflection = document.getElementById('readingReflection');
+    const bookTitle = document.getElementById('bookTitle');
+    const message = document.getElementById('message');
+    const streakDisplay = document.getElementById('streakCount');
+    const streakStartDate = document.getElementById('streakStartDate');
+    const readingHistory = document.getElementById('readingHistory');
+
+    // Initialize cookies if they don't exist
+    if (!Cookies.get('lastCheckIn')) {
+      Cookies.set('lastCheckIn', '0', {expires: 365});
+    }
+    if (!Cookies.get('streak')) {
+      Cookies.set('streak', '0', {expires: 365});
+    }
+    if (!Cookies.get('streakStartDate')) {
+      Cookies.set('streakStartDate', '0', {expires: 365});
+    }
+    if (!Cookies.get('readingHistory')) {
+      Cookies.set('readingHistory', JSON.stringify([]), {expires: 365});
+    }
+
+    function updateStreakDisplay() {
+      streakDisplay.textContent = Cookies.get('streak');
+      const startDate = parseInt(Cookies.get('streakStartDate'));
+      if (startDate > 0) {
+        streakStartDate.textContent = `Streak started: ${new Date(startDate).toLocaleDateString()}`;
+      } else {
+        streakStartDate.textContent = 'Start your streak today!';
+      }
+    }
+
+    function showMessage(text, isSuccess) {
+      message.textContent = text;
+      message.style.display = 'block';
+      message.className = `message ${isSuccess ? 'success' : 'error'}`;
+      setTimeout(() => {
+        message.style.display = 'none';
+      }, 3000);
+    }
+
+    function updateReadingHistory() {
+      const history = JSON.parse(Cookies.get('readingHistory') || '[]');
+      readingHistory.innerHTML = history.map(entry => `
+                <div class="history-entry">
+                    <div class="history-date">${new Date(entry.date).toLocaleDateString()}</div>
+                    <strong>${entry.bookTitle}</strong>
+                    <p>${entry.reflection}</p>
+                </div>
+            `).join('');
+    }
+
+    function isSameDay(date1, date2) {
+      return date1.getDate() === date2.getDate() &&
+        date1.getMonth() === date2.getMonth() &&
+        date1.getFullYear() === date2.getFullYear();
+    }
+
+    function saveReading() {
+      if (!bookTitle.value.trim()) {
+        showMessage('Please enter the book title!', false);
+        return;
+      }
+      if (readingReflection.value.length < 50) {
+        showMessage('Please write at least 50 characters about what you read!', false);
+        return;
+      }
+
+      const lastCheckIn = new Date(parseInt(Cookies.get('lastCheckIn')));
+      const now = new Date();
+
+      // Check if the last check-in was on a different day
+      if (lastCheckIn.getTime() === 0 || !isSameDay(lastCheckIn, now)) {
+        let currentStreak = parseInt(Cookies.get('streak'));
+
+        // Check if the last check-in was yesterday or if this is the first check-in
+        if (lastCheckIn.getTime() === 0 ||
+          isSameDay(new Date(lastCheckIn.getTime() + 24 * 60 * 60 * 1000), now) ||
+          isSameDay(lastCheckIn, new Date(now.getTime() - 24 * 60 * 60 * 1000))) {
+          // Increment streak
+          currentStreak += 1;
+          if (currentStreak === 1) {
+            // New streak started
+            Cookies.set('streakStartDate', now.getTime().toString(), {expires: 365});
+          }
+          showMessage('Reading streak increased! 🎉', true);
+        } else {
+          // Streak broken
+          currentStreak = 1;
+          Cookies.set('streakStartDate', now.getTime().toString(), {expires: 365});
+          showMessage('New streak started!', true);
+        }
+
+        Cookies.set('streak', currentStreak.toString(), {expires: 365});
+
+        // Save reading entry
+        const history = JSON.parse(Cookies.get('readingHistory') || '[]');
+        history.unshift({
+          date: now.getTime(),
+          bookTitle: bookTitle.value,
+          reflection: readingReflection.value
+        });
+        Cookies.set('readingHistory', JSON.stringify(history.slice(0, 10)), {expires: 365});
+
+        Cookies.set('lastCheckIn', now.getTime().toString(), {expires: 365});
+        submitReflection.disabled = true;
+        bookTitle.value = '';
+        readingReflection.value = '';
+        updateReadingHistory();
+      } else {
+        showMessage('You\'ve already logged your reading today! Come back after midnight!', false);
+      }
+      updateStreakDisplay();
+    }
+
+    // Event Listeners
+    submitReflection.addEventListener('click', saveReading);
+
+    // Check if already logged today
+    const lastCheckIn = new Date(parseInt(Cookies.get('lastCheckIn')));
+    const now = new Date();
+    if (lastCheckIn.getTime() > 0 && isSameDay(lastCheckIn, now)) {
+      submitReflection.disabled = true;
+      showMessage('You\'ve already logged your reading today! Come back after midnight!', false);
+    }
+
+    // Initial display updates
+    updateStreakDisplay();
+    updateReadingHistory();
+  </script>
+</body>
+
+</html>
